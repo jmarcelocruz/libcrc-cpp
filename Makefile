@@ -1,16 +1,22 @@
-sources :=
+sources := libcrc/libcrc/crc.cpp \
+           libcrc/libcrc/crc.test.cpp
 depends := $(patsubst %.cpp,%.d,${sources})
 objects := $(patsubst %.cpp,%.o,${sources})
 
-includedirs :=
+includedirs := libcrc
 
-binaries :=
+binaries := libcrc.a \
+            libcrc/libcrc/crc_test
 
 CXXFLAGS := -std=c++17 $(addprefix -I,${includedirs})
 LDFLAGS :=
+TEST_LDFLAGS := -lgtest -lgtest_main
 
-libcrc.a:
+libcrc.a: libcrc/libcrc/crc.o
 	${AR} rcs $@ $^
+
+libcrc/libcrc/crc_test: libcrc/libcrc/crc.test.o libcrc/libcrc/crc.o
+	${CXX} $^ ${LDFLAGS} ${TEST_LDFLAGS} -o $@
 
 ${objects}: %.o: %.cpp
 	${CXX} -c $< ${CXXFLAGS} -o $@
