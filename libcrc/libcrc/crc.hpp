@@ -6,11 +6,12 @@
 namespace crc {
     class Crc8 {
     public:
-        Crc8(uint8_t generator);
+        Crc8(uint8_t generator, uint8_t remainder = 0);
         uint8_t crc(uint8_t* first, uint8_t* last);
 
     private:
-        uint8_t generator;
+        const uint8_t generator;
+        const uint8_t remainder;
     };
 }
 
