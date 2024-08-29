@@ -1,9 +1,10 @@
 #include <libcrc/crc.hpp>
 
 namespace crc {
-    Crc8::Crc8(uint8_t generator, uint8_t remainder)
+    Crc8::Crc8(uint8_t generator, uint8_t remainder, uint8_t final_xor)
         : generator{generator}
-        , remainder{remainder} {}
+        , remainder{remainder}
+        , final_xor{final_xor} {}
 
     uint8_t Crc8::crc(uint8_t* first, uint8_t* last) {
         uint8_t crc = remainder;
@@ -18,6 +19,6 @@ namespace crc {
             }
         }
 
-        return crc;
+        return crc ^ final_xor;
     }
 }
