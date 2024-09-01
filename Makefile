@@ -22,7 +22,7 @@ ${objects}: %.o: %.cpp
 	${CXX} -c $< ${CXXFLAGS} -o $@
 
 ${depends}: %.d: %.cpp
-	${CXX} $^ -MM -MT $(patsubst %.cpp,%.o,$<) -o $@
+	${CXX} $^ ${CXXFLAGS} -MM -MT $(patsubst %.cpp,%.o,$<) -o $@
 
 clean:
 	rm -f ${binaries} ${depends} ${objects}
