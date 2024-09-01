@@ -4,18 +4,25 @@
 #include <cstdint>
 
 namespace crc {
-    class Crc8 {
+    template<typename T>
+    class Crc {
     public:
-        Crc8(uint8_t generator, uint8_t remainder = 0, uint8_t final_xor = 0, bool reflect_input = false, bool reflect_output = false);
-        uint8_t crc(uint8_t* first, uint8_t* last);
+        Crc(T generator, T remainder = 0, T final_xor = 0, bool reflect_input = false, bool reflect_output = false);
+        T crc(uint8_t* first, uint8_t* last);
 
     private:
-        const uint8_t final_xor;
-        const uint8_t generator;
+        const T final_xor;
+        const T generator;
         const bool reflect_input;
         const bool reflect_output;
-        const uint8_t remainder;
+        const T remainder;
     };
+
+    template class Crc<uint8_t>;
+    template class Crc<uint32_t>;
+
+    using Crc8 = Crc<uint8_t>;
+    using Crc32 = Crc<uint32_t>;
 }
 
 #endif
