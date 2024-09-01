@@ -36,3 +36,12 @@ TEST(Crc8Suite, ArbitraryLengthInputReturnExpectedXoredValue) {
     EXPECT_EQ(crc_a.crc(&input[0], &input[3]), 0x56 ^ 0xFF);
     EXPECT_EQ(crc_b.crc(&input[0], &input[3]), 0x56 ^ 0x9F);
 }
+
+TEST(Crc8Suite, InputReflectionEnabledReturnsSameAsForReflectedInput) {
+    crc::Crc8 crc_a{0x2F, 0xFF, 0x00, true};
+    crc::Crc8 crc_b{0x2F, 0xFF, 0x00, false};
+    std::array<uint8_t,3> input_a{0x31, 0x32, 0x33};
+    std::array<uint8_t,3> input_b{0x8C, 0x4C, 0xCC};
+
+    EXPECT_EQ(crc_a.crc(&input_a[0], &input_a[3]), crc_b.crc(&input_b[0], &input_b[3]));
+}
