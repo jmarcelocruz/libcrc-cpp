@@ -45,3 +45,12 @@ TEST(Crc8Suite, InputReflectionEnabledReturnsSameAsForReflectedInput) {
 
     EXPECT_EQ(crc_a.crc(&input_a[0], &input_a[3]), crc_b.crc(&input_b[0], &input_b[3]));
 }
+
+TEST(Crc8Suite, OutputReflectionEnabledReturnsReflectedExpectedValue) {
+    crc::Crc8 crc_a{0x2F, 0xFF, 0x00, false, true};
+    crc::Crc8 crc_b{0x2F, 0xFF, 0x9F, false, true};
+    std::array<uint8_t,3> input{0x31, 0x32, 0x33};
+
+    EXPECT_EQ(crc_a.crc(&input[0], &input[3]), 0x6A); /* reflected 0x56 */
+    EXPECT_EQ(crc_b.crc(&input[0], &input[3]), 0xF5); /* reflected 0xC9 */
+}

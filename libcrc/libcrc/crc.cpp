@@ -12,11 +12,12 @@ namespace {
 }
 
 namespace crc {
-    Crc8::Crc8(uint8_t generator, uint8_t remainder, uint8_t final_xor, bool reflect_input)
+    Crc8::Crc8(uint8_t generator, uint8_t remainder, uint8_t final_xor, bool reflect_input, bool reflect_output)
         : generator{generator}
         , remainder{remainder}
         , final_xor{final_xor}
-        , reflect_input{reflect_input} {}
+        , reflect_input{reflect_input}
+        , reflect_output{reflect_output} {}
 
     uint8_t Crc8::crc(uint8_t* first, uint8_t* last) {
         uint8_t crc = remainder;
@@ -31,6 +32,6 @@ namespace crc {
             }
         }
 
-        return crc ^ final_xor;
+        return (reflect_output ? reflected_byte(crc) : crc) ^ final_xor;
     }
 }
