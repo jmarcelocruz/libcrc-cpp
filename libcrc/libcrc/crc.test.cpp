@@ -5,7 +5,7 @@
 TEST(Crc8Suite, ZeroLengthInputReturnsInitialValue) {
     crc::Crc8 crc_a{0x07};
     crc::Crc8 crc_b{0x2F, 0xFF};
-    std::array<uint8_t, 0> input{};
+    std::array<uint8_t,3> input{0x31, 0x32, 0x33};
 
     EXPECT_EQ(crc_a.crc(&input[0], &input[0]), 0);
     EXPECT_EQ(crc_b.crc(&input[0], &input[0]), 0xFF);
