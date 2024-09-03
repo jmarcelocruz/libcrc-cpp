@@ -12,6 +12,24 @@ CXXFLAGS := -std=c++17 $(addprefix -I,${includedirs})
 LDFLAGS :=
 TEST_LDFLAGS := -lgtest -lgtest_main
 
+DESTDIR :=
+INSTALL := install
+
+prefix := /usr/local
+exec_prefix := ${prefix}
+includedir := ${prefix}/include
+libdir := ${exec_prefix}/lib
+
+install: libcrc.a $(shell find ${includedirs} -type f -name '*.hpp')
+	${INSTALL} -m 755 -d ${DESTDIR}${includedir}
+	${INSTALL} -m 755 -d ${DESTDIR}${libdir}
+	${INSTALL} -m 755 $< ${DESTDIR}${libdir}
+	find ${includedirs} -type f -name '*.hpp' | xargs -I % ${INSTALL} -m 644 -D % ${DESTDIR}${includedir}/%
+
+uninstall:
+	rm -f ${DESTDIR}${libdir}/libcrc.a
+	find ${includedirs} -type f -name '*.hpp' | xargs -I % rm -f ${DESTDIR}${includedir}/%
+
 libcrc.a: libcrc/libcrc/crc.o
 	${AR} rcs $@ $^
 
