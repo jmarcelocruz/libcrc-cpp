@@ -24,7 +24,11 @@ install: libcrc.a $(shell find ${includedirs} -type f -name '*.hpp')
 	${INSTALL} -m 755 -d ${DESTDIR}${includedir}
 	${INSTALL} -m 755 -d ${DESTDIR}${libdir}
 	${INSTALL} -m 755 $< ${DESTDIR}${libdir}
-	find ${includedirs} -type f -name '*.hpp' | xargs -I % ${INSTALL} -m 644 -D % ${DESTDIR}${includedir}/%
+	for dir in ${includedirs}; do \
+	    pushd $${dir} > /dev/null; \
+	    find -type f -name '*.hpp' | xargs -I % ${INSTALL} -m 644 -D % ${DESTDIR}${includedir}/%; \
+		popd > /dev/null; \
+	done
 
 uninstall:
 	rm -f ${DESTDIR}${libdir}/libcrc.a
